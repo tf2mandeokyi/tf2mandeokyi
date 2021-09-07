@@ -1,8 +1,11 @@
+// (c) 2021 m4ndeokyi
+// This code is licensed under MIT license (see LICENSE.txt for details)
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-
 
 
 template<typename T> void swap(T* array, int index1, int index2)
@@ -13,22 +16,21 @@ template<typename T> void swap(T* array, int index1, int index2)
 }
 
 
-
 template<typename T> void quicksort(T* array, int begin, int end, int (*comp)(T t1, T t2))
 {
 	if(begin >= end) return;
 	if(begin == end - 1)
 	{
-		if(array[begin] > array[end]) swap(array, begin, end);
+		if(comp(array[begin], array[end]) > 0) swap(array, begin, end);
 		return;
 	}
 	
 	int p1 = begin, p2 = end - 1;
 	while(p1 != p2)
 	{
-		if(array[p2] < array[end]) 
+		if(comp(array[p2], array[end]) < 0) 
 		{
-			if(array[p1] < array[end]) 
+			if(comp(array[p1], array[end]) < 0) 
 			{
 				++p1; 
 				continue;
@@ -37,16 +39,14 @@ template<typename T> void quicksort(T* array, int begin, int end, int (*comp)(T 
 		}
 		--p2;
 	}
-	swap(array, array[p1] > array[end] ? p1 : p1+1, end);
+	swap(array, comp(array[p1], array[end]) > 0 ? p1 : p1+1, end);
 	
 	quicksort(array, begin, p1, comp);
 	quicksort(array, p1+1, end, comp);
 }
 
 
-
 void random_test(int), massive_test(int);
-
 
 
 int main()
@@ -84,13 +84,11 @@ int main()
 	return 0;
 }
 
-
 	
 inline int comp(int t1, int t2)
 {
-	return t2 - t1;
+	return t1 - t2;
 }
-
 
 
 void random_test(int array_size)
@@ -99,7 +97,7 @@ void random_test(int array_size)
 	printf("정렬 전: \n   ");
 	for(int i = 0; i < array_size; ++i)
 	{
-		a[i] = rand();
+		a[i] = (rand() * rand()) & 0xffff;
 		printf("%d ", a[i]);
 	}
 	printf("\n");
@@ -112,7 +110,6 @@ void random_test(int array_size)
 		printf("%d ", a[i]);
 	}
 }
-
 
 
 void massive_test(int array_size)
