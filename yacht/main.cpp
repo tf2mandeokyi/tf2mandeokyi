@@ -302,7 +302,7 @@ namespace YachtGame
 			{
 				if(this->players[i].get_subtotal_score() >= 63)
 				{
-					printf("    35 |");
+					printf("   +35 |");
 				}
 				else
 				{
@@ -323,7 +323,7 @@ namespace YachtGame
 			}
 			
 			// #####################################
-			printf("\n    63점을 넘길 경우 보너스 추가     ");
+			printf("\n   63점을 넘길 경우 보너스 추가      ");
 			for(char i = 0; i < (p - 1) * 8; ++i)
 			{
 				printf(" ");
